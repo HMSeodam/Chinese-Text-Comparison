@@ -54,13 +54,19 @@
 
 ##  실행 방법
 
-### 1. 브라우저에서 실행 (권장)
+### 1. 프로그램 다운로드
 
-1. 본 저장소의 **Releases** 탭에서 최신 버전(v1.1)의 소스코드를 다운로드하거나, 메인의 **Download ZIP**을 눌러 압축을 해제합니다.
-   
-2. `교감 실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
-   
-3. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
+1. **[최신 버전(v1.1) 다운로드 받기](https://github.com/HMSeodam/Chinese-Text-Comparison/archive/refs/tags/v1.1.zip)**
+
+2. 위 링크를 눌러 압축 파일(`zip`)을 받고 적당한 폴더에 해제합니다.
+
+3. 이전 버전이 필요하신 분은 [Releases 페이지](https://github.com/HMSeodam/Chinese-Text-Comparison/releases)에서 모든 버전을 확인할 수 있습니다.
+
+### 2. 브라우저에서 실행
+
+1. 압축을 푼 폴더에서 `교감 실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
+
+2. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
 
 ---
 
