@@ -4,6 +4,8 @@
 
 교감학(校勘學) 연구 및 이본(異本) 대조 작업을 자동화하여 연구의 효율성과 정확성을 극대화합니다.
 
+> 📖 **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
+
 ---
 
 ##  최신 버전 소식 (Changelog)
@@ -107,3 +109,32 @@
 * **이체자 대응**: `說`-`悅`, `慍`-`愠` 등의 차이를 확인하세요.
   
 * **탈자 감지**: 일부 글자가 누락되었을 때 알고리즘이 어떻게 재정렬하는지 테스트할 수 있습니다.
+
+---
+
+## 📖 공개 교감 데이터
+
+이 도구를 사용하여 수행한 교감 결과를 웹에서 바로 열람할 수 있습니다.
+
+| 문헌 | 교감 대상 | 결과 보기 |
+|------|-----------|-----------|
+| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
+
+→ 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
+
+---
+
+## 라이선스
+
+* **교감 도구**: MIT License
+* **교감 데이터** (`results/`): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko)
+
+자세한 내용은 [LICENSE.md](LICENSE.md)를 참고하세요.
+
+---
+
+## 인용 (Citation)
+
+이 도구 또는 교감 데이터를 연구에 사용하셨다면 다음과 같이 인용해 주세요:
+
+> HMSeodam (2026). 한문 텍스트 교감기 (Classical Chinese Text Collator). GitHub. https://github.com/HMSeodam/Chinese-Text-Comparison

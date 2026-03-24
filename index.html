@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한문 텍스트 교감 결과 | Classical Chinese Text Collation Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #f7f5f0;
+            --accent: #8b4513;
+            --accent-light: #d4a574;
+            --border: #d4cfc4;
+            --subtle: #6b6459;
+            --card-bg: #fffef9;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        /* 상단 장식 선 */
+        body::before {
+            content: '';
+            display: block;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px 80px;
+        }
+
+        /* 제목 영역 */
+        header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        header h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+            color: var(--ink);
+        }
+
+        header h1 .han {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--subtle);
+            margin-top: 4px;
+            letter-spacing: 0.15em;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: var(--subtle);
+            max-width: 520px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        header .tool-link {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-decoration: none;
+            border: 1px solid var(--accent-light);
+            padding: 6px 16px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        header .tool-link:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* 결과 목록 */
+        .results-section h2 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding-left: 14px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .result-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 28px 28px 24px;
+            margin-bottom: 16px;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-color: var(--accent-light);
+        }
+
+        .result-card .title-row {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .result-card .title-row h3 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+
+        .result-card .title-row .taishō {
+            font-size: 0.8rem;
+            color: var(--subtle);
+            font-weight: 400;
+        }
+
+        .result-card .desc {
+            font-size: 0.9rem;
+            color: var(--subtle);
+            margin-bottom: 16px;
+            font-weight: 300;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .stat {
+            font-size: 0.82rem;
+            color: var(--subtle);
+        }
+
+        .stat strong {
+            color: var(--ink);
+            font-weight: 500;
+        }
+
+        .result-card .view-btn {
+            display: inline-block;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 8px 20px;
+            border: 1px solid var(--accent);
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+
+        .result-card .view-btn:hover {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        /* 푸터 */
+        footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--subtle);
+            font-weight: 300;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 40px 16px 60px; }
+            header h1 { font-size: 1.4rem; }
+            .result-card { padding: 20px; }
+            .stat-row { gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>
+                한문 텍스트 교감 결과
+                <span class="han">漢文校勘成果</span>
+            </h1>
+            <p>
+                한문 텍스트 교감기를 사용하여 수행한 교감 결과를 공개합니다.
+                각 항목을 클릭하면 글자 단위 대조 결과를 브라우저에서 바로 확인할 수 있습니다.
+            </p>
+            <a href="https://github.com/HMSeodam/Chinese-Text-Comparison" class="tool-link">
+                교감 도구 GitHub →
+            </a>
+        </header>
+
+        <section class="results-section">
+            <h2>공개 교감 데이터</h2>
+
+            <div class="result-card">
+                <div class="title-row">
+                    <h3>大乘起信論</h3>
+                    <span class="taishō">T1666 · T1667</span>
+                </div>
+                <p class="desc">
+                    진제(眞諦, Paramārtha) 역본과 실차난타(實叉難陀, Śikṣānanda) 역본의 글자 단위 교감.
+                    CBETA 2016년판 텍스트를 저본으로 사용.
+                </p>
+                <div class="stat-row">
+                    <span class="stat">P본 한자 <strong>10,727</strong>자</span>
+                    <span class="stat">S본 한자 <strong>10,763</strong>자</span>
+                    <span class="stat">동일 <strong>6,286</strong>자</span>
+                    <span class="stat">차이 약 <strong>41%</strong></span>
+                </div>
+                <a href="./results/awakening-of-faith/" class="view-btn">교감 결과 보기</a>
+            </div>
+
+            <!-- 향후 추가 교감 데이터는 여기에 카드를 추가합니다 -->
+
+        </section>
+
+        <footer>
+            <p>
+                © 2026 <a href="https://github.com/HMSeodam">HMSeodam</a> · 
+                교감 데이터: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko">CC BY-NC-SA 4.0</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

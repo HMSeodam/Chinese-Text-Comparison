@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "이 도구 또는 교감 데이터를 사용하셨다면 아래와 같이 인용해 주세요."
+title: "한문 텍스트 교감기 (Classical Chinese Text Collator)"
+type: software
+authors:
+  - name: "HMSeodam"
+    alias: "HMSeodam"
+repository-code: "https://github.com/HMSeodam/Chinese-Text-Comparison"
+url: "https://hmseodam.github.io/Chinese-Text-Comparison/"
+license: CC-BY-NC-SA-4.0
+version: "1.1"
+date-released: "2026-03-12"
+keywords:
+  - "classical Chinese"
+  - "text collation"
+  - "critical apparatus"
+  - "digital humanities"
+  - "Buddhist studies"
+  - "漢文"
+  - "校勘"
+  - "大乘起信論"
