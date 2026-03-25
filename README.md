@@ -4,9 +4,9 @@
 
 교감학(校勘學) 연구 및 이본(異本) 대조 작업을 자동화하여 연구의 효율성과 정확성을 극대화합니다.
 
-> 🔧 **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)
+>  **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감실행.html)
 > 
-> 📖 **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
+>  **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
 ---
 
@@ -96,7 +96,7 @@
 
 다운로드 없이 브라우저에서 즉시 사용할 수 있습니다.
 
-→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)**
+→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감실행.html)**
 
 ### 방법 2. 다운로드 후 로컬 실행
 
@@ -158,7 +158,7 @@
 
 | 문헌 | 교감 대상 | 결과 보기 |
 |------|-----------|-----------|
-| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/Awakening_Of_Faith/) |
+| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
 
 → 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
