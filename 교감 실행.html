@@ -2,10 +2,27 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>한문 텍스트 교감기 (Classical Chinese Text Collator)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>한문 텍스트 교감기 v1.2 (Classical Chinese Text Collator)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* CJK Font Stack: system fonts only (offline) */
+        :root {
+            --ink: #1a1a2e;
+            --paper: #f7f5f0;
+            --accent: #8b4513;
+            --accent-light: #d4a574;
+            --border: #d4cfc4;
+            --subtle: #6b6459;
+            --card-bg: #fffef9;
+            --diff-red: #c0392b;
+            --diff-bg-a: #ffeaea;
+            --diff-bg-b: #fff3cd;
+            --match-color: #1a1a2e;
+            --success: #27ae60;
+            --info-blue: #2980b9;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -13,86 +30,146 @@
         }
 
         body {
-            font-family: 'Noto Sans CJK KR', 'Noto Sans CJK TC', 'Noto Sans CJK SC', 'Noto Sans CJK JP',
-                         '源ノ角ゴシック', 'Source Han Sans', 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕',
-                         'Microsoft YaHei', '微软雅黑', 'PingFang SC', 'PingFang TC', 'Hiragino Sans',
-                         'MS Gothic', 'SimSun', 'MingLiU', sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            font-family: 'Noto Sans KR', 'Noto Sans CJK KR', 'Malgun Gothic', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
             line-height: 1.6;
+            min-height: 100vh;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body::before {
+            content: '';
+            display: block;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 40px 24px 80px;
         }
 
-        h1 {
+        /* ===== Header ===== */
+        header {
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 1.8em;
-            color: #2c3e50;
+            margin-bottom: 36px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            font-size: 0.95em;
+        header h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
         }
 
+        header .han {
+            display: block;
+            font-size: 0.95rem;
+            color: var(--subtle);
+            letter-spacing: 0.12em;
+            margin-top: 2px;
+        }
+
+        header .version {
+            display: inline-block;
+            font-size: 0.72rem;
+            color: var(--accent);
+            border: 1px solid var(--accent-light);
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        header p {
+            font-size: 0.88rem;
+            color: var(--subtle);
+            margin-top: 12px;
+            font-weight: 300;
+        }
+
+        /* ===== Upload Section ===== */
         .upload-section {
-            background: #fff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 28px;
             margin-bottom: 20px;
         }
 
         .upload-section h2 {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: #2c3e50;
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.05rem;
+            margin-bottom: 4px;
+            padding-left: 12px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .upload-hint {
+            color: var(--subtle);
+            font-size: 0.82rem;
+            margin-bottom: 18px;
+            font-weight: 300;
         }
 
         .file-input-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
         .file-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .file-row label {
-            min-width: 80px;
-            font-weight: bold;
-            color: #555;
+            min-width: 60px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--ink);
         }
 
         .file-row input[type="file"] {
             flex: 1;
-            padding: 8px;
-            border: 2px dashed #ccc;
-            border-radius: 8px;
+            min-width: 0;
+            padding: 8px 10px;
+            border: 1.5px dashed var(--border);
+            border-radius: 6px;
             cursor: pointer;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
+            font-size: 0.85rem;
+            background: #fff;
         }
 
-        .file-row input[type="file"]:hover {
-            border-color: #3498db;
+        .file-row input[type="file"]:hover,
+        .file-row input[type="file"]:focus {
+            border-color: var(--accent);
+        }
+
+        .encoding-select {
+            padding: 7px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            font-size: 0.82rem;
+            background: #fff;
+            color: var(--ink);
         }
 
         .file-status {
-            font-size: 0.85em;
-            color: #27ae60;
-            min-width: 100px;
-            text-align: right;
+            font-size: 0.78rem;
+            color: var(--success);
+            width: 100%;
+            margin-top: 2px;
+            padding-left: 68px;
         }
 
         .btn-group {
@@ -102,94 +179,87 @@
         }
 
         button {
-            padding: 10px 24px;
+            padding: 10px 22px;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 6px;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
+            transition: all 0.2s;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
         .btn-add {
-            background: #ecf0f1;
-            color: #2c3e50;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent-light);
         }
-
-        .btn-add:hover {
-            background: #bdc3c7;
-        }
+        .btn-add:hover { background: var(--accent); color: #fff; }
 
         .btn-compare {
-            background: #3498db;
+            background: var(--accent);
             color: #fff;
         }
-
-        .btn-compare:hover {
-            background: #2980b9;
-        }
-
+        .btn-compare:hover { background: #6d3710; }
         .btn-compare:disabled {
-            background: #bdc3c7;
+            background: var(--border);
+            color: var(--subtle);
             cursor: not-allowed;
         }
 
         .btn-remove {
-            background: #e74c3c;
+            background: var(--diff-red);
             color: #fff;
-            padding: 6px 12px;
-            font-size: 0.85em;
+            padding: 5px 10px;
+            font-size: 0.78rem;
+            border-radius: 4px;
         }
+        .btn-remove:hover { background: #a93226; }
 
-        .btn-remove:hover {
-            background: #c0392b;
-        }
-
-        /* Modal */
+        /* ===== Modal ===== */
         .modal-overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.45);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 16px;
         }
-
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
-            background: #fff;
-            border-radius: 12px;
-            padding: 30px;
-            max-width: 500px;
-            width: 90%;
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 28px;
+            max-width: 480px;
+            width: 100%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
         .modal h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
+            font-family: 'Noto Serif KR', serif;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
         }
-
         .modal p {
-            margin-bottom: 15px;
-            color: #555;
+            margin-bottom: 14px;
+            color: var(--subtle);
+            font-size: 0.88rem;
         }
 
         .pair-list {
-            max-height: 300px;
+            max-height: 240px;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .pair-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 12px;
+            padding: 10px 12px;
             border-bottom: 1px solid #eee;
         }
 
@@ -197,11 +267,12 @@
             width: 18px;
             height: 18px;
             cursor: pointer;
+            accent-color: var(--accent);
         }
 
         .pair-item label {
             cursor: pointer;
-            font-size: 0.95em;
+            font-size: 0.88rem;
         }
 
         .modal-buttons {
@@ -211,80 +282,137 @@
         }
 
         .btn-cancel {
-            background: #ecf0f1;
-            color: #2c3e50;
+            background: transparent;
+            color: var(--subtle);
+            border: 1px solid var(--border);
         }
-
-        .btn-cancel:hover {
-            background: #bdc3c7;
-        }
+        .btn-cancel:hover { background: #eee; }
 
         .btn-confirm {
-            background: #27ae60;
+            background: var(--success);
             color: #fff;
         }
+        .btn-confirm:hover { background: #219a52; }
 
-        .btn-confirm:hover {
-            background: #219a52;
-        }
-
-        /* Loading */
+        /* ===== Loading ===== */
         .loading {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 40px 20px;
         }
-
-        .loading.active {
-            display: block;
-        }
+        .loading.active { display: block; }
 
         .spinner {
-            border: 4px solid #ecf0f1;
-            border-top: 4px solid #3498db;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            width: 36px;
+            height: 36px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 14px;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        .info-box {
-            background: #eaf6ff;
-            border-left: 4px solid #3498db;
-            padding: 15px;
-            border-radius: 0 8px 8px 0;
-            margin-top: 20px;
-            font-size: 0.9em;
-            color: #2c3e50;
+        .loading p {
+            font-size: 0.9rem;
+            color: var(--subtle);
         }
 
-        .encoding-select {
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-            font-size: 0.9em;
+        /* ===== Info Box ===== */
+        .info-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            padding: 18px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--subtle);
+            line-height: 1.9;
+        }
+
+        .info-box strong {
+            color: var(--ink);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            margin-top: 48px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--subtle);
+            font-weight: 300;
+        }
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+
+        /* ===== Mobile ===== */
+        @media (max-width: 640px) {
+            .container { padding: 24px 14px 60px; }
+            header h1 { font-size: 1.3rem; }
+            .upload-section { padding: 18px 14px; }
+
+            .file-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+            }
+
+            .file-row label {
+                min-width: auto;
+                font-size: 0.85rem;
+            }
+
+            .file-row input[type="file"] {
+                font-size: 0.8rem;
+            }
+
+            .file-status {
+                padding-left: 0;
+                font-size: 0.75rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-group button {
+                width: 100%;
+                text-align: center;
+            }
+
+            .modal { padding: 20px 16px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>漢文 텍스트 교감기</h1>
-        <p class="subtitle">Classical Chinese Text Collator — 한문 텍스트 파일을 비교·교감합니다</p>
+        <header>
+            <h1>
+                한문 텍스트 교감기
+                <span class="han">漢文校勘器</span>
+            </h1>
+            <span class="version">v1.2</span>
+            <p>텍스트 파일을 업로드하여 글자 단위로 비교·교감합니다</p>
+        </header>
 
         <div class="upload-section">
             <h2>텍스트 파일 업로드</h2>
-            <p style="color:#888; font-size:0.9em; margin-bottom:15px;">
+            <p class="upload-hint">
                 비교할 텍스트 파일(.txt)을 2개 이상 업로드하세요. 한국·대만·일본·중국식 한자를 모두 지원합니다.
             </p>
 
             <div id="fileInputs" class="file-input-group">
                 <div class="file-row" data-index="0">
-                    <label>파일 A:</label>
+                    <label>파일 A</label>
                     <input type="file" accept=".txt,.text" onchange="handleFile(this, 0)">
                     <select class="encoding-select" data-index="0">
                         <option value="UTF-8" selected>UTF-8</option>
@@ -297,7 +425,7 @@
                     <span class="file-status" id="status-0"></span>
                 </div>
                 <div class="file-row" data-index="1">
-                    <label>파일 B:</label>
+                    <label>파일 B</label>
                     <input type="file" accept=".txt,.text" onchange="handleFile(this, 1)">
                     <select class="encoding-select" data-index="1">
                         <option value="UTF-8" selected>UTF-8</option>
@@ -319,24 +447,31 @@
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p>텍스트를 비교하고 있습니다... 잠시만 기다려 주세요.</p>
+            <p>텍스트를 비교하고 있습니다…</p>
         </div>
 
         <div class="info-box">
-            <strong>사용 안내:</strong><br>
+            <strong>사용 안내</strong><br>
             1. 비교할 텍스트 파일을 2개 이상 업로드합니다.<br>
             2. 파일 인코딩이 UTF-8이 아닌 경우 해당 인코딩을 선택합니다.<br>
             3. 「교감 시작」을 누르면 비교할 파일 조합을 선택하는 창이 나타납니다.<br>
             4. 원하는 조합을 선택하면 새 창에서 결과를 확인할 수 있습니다.<br>
             5. 결과 페이지에서 HTML 파일로 저장할 수 있습니다.
         </div>
+
+        <footer>
+            <p>
+                © 2026 <a href="https://github.com/HMSeodam">HMSeodam</a> ·
+                <a href="https://github.com/HMSeodam/Chinese-Text-Comparison">GitHub</a>
+            </p>
+        </footer>
     </div>
 
     <!-- Selection Modal -->
     <div class="modal-overlay" id="selectionModal">
         <div class="modal">
             <h3>비교할 파일 조합 선택</h3>
-            <p>교감할 파일 쌍을 선택하세요. 각 조합에 대해 별도의 결과 창이 열립니다.</p>
+            <p>교감할 파일 쌍을 선택하세요.</p>
             <div class="pair-list" id="pairList"></div>
             <div class="modal-buttons">
                 <button class="btn-cancel" onclick="closeModal()">취소</button>
@@ -347,11 +482,11 @@
 
     <script>
     // ===== State =====
-    const files = {};      // index -> { name, content }
+    const files = {};
     let fileCount = 2;
     const fileLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    // ===== File Handling (개선됨) =====
+    // ===== File Handling =====
     function handleFile(input, index) {
         const file = input.files[0];
         if (!file) return;
@@ -363,8 +498,6 @@
         reader.onload = function(e) {
             try {
                 let text = e.target.result;
-                
-                // 빈 파일 체크
                 if (!text || text.trim().length === 0) {
                     alert(`경고: 파일 "${file.name}"이 비어있습니다.`);
                     input.value = '';
@@ -373,16 +506,9 @@
                     updateCompareButton();
                     return;
                 }
-                
-                // Normalize Unicode (NFC) to unify CJK variants where possible
-                if (text.normalize) {
-                    text = text.normalize('NFC');
-                }
-                // Remove BOM if present
-                if (text.charCodeAt(0) === 0xFEFF) {
-                    text = text.substring(1);
-                }
-                
+                if (text.normalize) text = text.normalize('NFC');
+                if (text.charCodeAt(0) === 0xFEFF) text = text.substring(1);
+
                 files[index] = { name: file.name, content: text };
                 const charCount = text.length;
                 const cjkCount = Array.from(text).filter(ch => isCJK(ch)).length;
@@ -403,7 +529,6 @@
             document.getElementById(`status-${index}`).textContent = '';
             updateCompareButton();
         };
-        
         try {
             reader.readAsText(file, encoding);
         } catch (error) {
@@ -415,12 +540,11 @@
         const idx = fileCount;
         fileCount++;
         const label = fileLabels[idx] || `F${idx}`;
-
         const row = document.createElement('div');
         row.className = 'file-row';
         row.dataset.index = idx;
         row.innerHTML = `
-            <label>파일 ${label}:</label>
+            <label>파일 ${label}</label>
             <input type="file" accept=".txt,.text" onchange="handleFile(this, ${idx})">
             <select class="encoding-select" data-index="${idx}">
                 <option value="UTF-8" selected>UTF-8</option>
@@ -455,11 +579,8 @@
             alert('파일을 2개 이상 업로드하세요.');
             return;
         }
-
         const pairList = document.getElementById('pairList');
         pairList.innerHTML = '';
-
-        // Generate all pairs
         for (let i = 0; i < indices.length; i++) {
             for (let j = i + 1; j < indices.length; j++) {
                 const a = indices[i], b = indices[j];
@@ -476,7 +597,6 @@
                 pairList.appendChild(item);
             }
         }
-
         document.getElementById('selectionModal').classList.add('active');
     }
 
@@ -490,37 +610,26 @@
             alert('최소 1개의 비교 조합을 선택하세요.');
             return;
         }
-
         closeModal();
         document.getElementById('loading').classList.add('active');
-
         const pairs = Array.from(checkboxes).map(cb => cb.value.split(',').map(Number));
 
-        // Process all pairs, then open ONE window with all results
         setTimeout(() => {
             try {
                 const allResults = [];
                 const errors = [];
-                
                 pairs.forEach(([a, b]) => {
                     try {
                         const result = compareTexts(files[a], files[b], a, b);
-                        allResults.push({
-                            result: result,
-                            idxA: a,
-                            idxB: b
-                        });
+                        allResults.push({ result, idxA: a, idxB: b });
                     } catch (error) {
                         errors.push(`파일 ${files[a].name} ↔ ${files[b].name}: ${error.message}`);
                     }
                 });
-                
                 document.getElementById('loading').classList.remove('active');
-                
                 if (errors.length > 0) {
                     alert('일부 비교에서 오류가 발생했습니다:\n\n' + errors.join('\n'));
                 }
-                
                 if (allResults.length > 0) {
                     openResultWindow(allResults);
                 } else {
@@ -535,15 +644,9 @@
     }
 
     // ===== LCS-based Diff Algorithm =====
-    // Uses a character-level LCS to align two texts, handling 1:N and N:1 differences.
     function computeLCS(textA, textB) {
         const m = textA.length;
         const n = textB.length;
-
-        // For very long texts, use the optimized approach
-        // We use a space-optimized LCS that only stores two rows at a time,
-        // then backtrack using the Hirschberg algorithm concept.
-        // For texts under 10000 chars, use standard DP.
         if (m <= 10000 && n <= 10000) {
             return computeLCSStandard(textA, textB);
         } else {
@@ -554,13 +657,8 @@
     function computeLCSStandard(textA, textB) {
         const m = textA.length;
         const n = textB.length;
-
-        // Build DP table
         const dp = new Array(m + 1);
-        for (let i = 0; i <= m; i++) {
-            dp[i] = new Uint32Array(n + 1);
-        }
-
+        for (let i = 0; i <= m; i++) dp[i] = new Uint32Array(n + 1);
         for (let i = 1; i <= m; i++) {
             for (let j = 1; j <= n; j++) {
                 if (textA[i - 1] === textB[j - 1]) {
@@ -570,8 +668,6 @@
                 }
             }
         }
-
-        // Backtrack to get alignment
         const alignment = [];
         let i = m, j = n;
         while (i > 0 && j > 0) {
@@ -586,45 +682,26 @@
                 j--;
             }
         }
-        while (i > 0) {
-            alignment.unshift({ type: 'deleteA', charA: textA[i - 1], idxA: i - 1 });
-            i--;
-        }
-        while (j > 0) {
-            alignment.unshift({ type: 'insertB', charB: textB[j - 1], idxB: j - 1 });
-            j--;
-        }
-
+        while (i > 0) { alignment.unshift({ type: 'deleteA', charA: textA[i - 1], idxA: i - 1 }); i--; }
+        while (j > 0) { alignment.unshift({ type: 'insertB', charB: textB[j - 1], idxB: j - 1 }); j--; }
         return alignment;
     }
 
-    // Hirschberg's algorithm for space-efficient LCS on long texts
     function computeLCSHirschberg(textA, textB) {
         const m = textA.length;
         const n = textB.length;
-
-        if (m === 0) {
-            return Array.from(textB).map((ch, idx) => ({ type: 'insertB', charB: ch, idxB: idx }));
-        }
-        if (n === 0) {
-            return Array.from(textA).map((ch, idx) => ({ type: 'deleteA', charA: ch, idxA: idx }));
-        }
+        if (m === 0) return Array.from(textB).map((ch, idx) => ({ type: 'insertB', charB: ch, idxB: idx }));
+        if (n === 0) return Array.from(textA).map((ch, idx) => ({ type: 'deleteA', charA: ch, idxA: idx }));
         if (m === 1) {
             const pos = textB.indexOf(textA[0]);
             const result = [];
             if (pos === -1) {
-                // Character not found in textB at all
                 result.push({ type: 'deleteA', charA: textA[0], idxA: 0 });
-                for (let j = 0; j < n; j++) {
-                    result.push({ type: 'insertB', charB: textB[j], idxB: j });
-                }
+                for (let j = 0; j < n; j++) result.push({ type: 'insertB', charB: textB[j], idxB: j });
             } else {
                 for (let j = 0; j < n; j++) {
-                    if (j === pos) {
-                        result.push({ type: 'match', charA: textA[0], charB: textB[j], idxA: 0, idxB: j });
-                    } else {
-                        result.push({ type: 'insertB', charB: textB[j], idxB: j });
-                    }
+                    if (j === pos) result.push({ type: 'match', charA: textA[0], charB: textB[j], idxA: 0, idxB: j });
+                    else result.push({ type: 'insertB', charB: textB[j], idxB: j });
                 }
             }
             return result;
@@ -633,58 +710,32 @@
             const pos = textA.indexOf(textB[0]);
             const result = [];
             if (pos === -1) {
-                for (let i = 0; i < m; i++) {
-                    result.push({ type: 'deleteA', charA: textA[i], idxA: i });
-                }
+                for (let i = 0; i < m; i++) result.push({ type: 'deleteA', charA: textA[i], idxA: i });
                 result.push({ type: 'insertB', charB: textB[0], idxB: 0 });
             } else {
                 for (let i = 0; i < m; i++) {
-                    if (i === pos) {
-                        result.push({ type: 'match', charA: textA[i], charB: textB[0], idxA: i, idxB: 0 });
-                    } else {
-                        result.push({ type: 'deleteA', charA: textA[i], idxA: i });
-                    }
+                    if (i === pos) result.push({ type: 'match', charA: textA[i], charB: textB[0], idxA: i, idxB: 0 });
+                    else result.push({ type: 'deleteA', charA: textA[i], idxA: i });
                 }
             }
             return result;
         }
-
         const mid = Math.floor(m / 2);
-
-        // Forward pass: LCS lengths for textA[0..mid] vs textB
         const scoreL = lcsLengthRow(textA.substring(0, mid), textB);
-
-        // Backward pass: LCS lengths for reverse(textA[mid..m]) vs reverse(textB)
         const revA = reverseStr(textA.substring(mid));
         const revB = reverseStr(textB);
         const scoreR = lcsLengthRow(revA, revB);
-
-        // Find optimal split point in textB
         let maxVal = -1, splitJ = 0;
         for (let j = 0; j <= n; j++) {
             const val = scoreL[j] + scoreR[n - j];
-            if (val > maxVal) {
-                maxVal = val;
-                splitJ = j;
-            }
+            if (val > maxVal) { maxVal = val; splitJ = j; }
         }
-
-        // Recurse on both halves
-        const leftAlign = computeLCSHirschberg(
-            textA.substring(0, mid),
-            textB.substring(0, splitJ)
-        );
-        const rightAlign = computeLCSHirschberg(
-            textA.substring(mid),
-            textB.substring(splitJ)
-        );
-
-        // Adjust indices in right half
+        const leftAlign = computeLCSHirschberg(textA.substring(0, mid), textB.substring(0, splitJ));
+        const rightAlign = computeLCSHirschberg(textA.substring(mid), textB.substring(splitJ));
         rightAlign.forEach(op => {
             if (op.idxA !== undefined) op.idxA += mid;
             if (op.idxB !== undefined) op.idxB += splitJ;
         });
-
         return leftAlign.concat(rightAlign);
     }
 
@@ -692,14 +743,10 @@
         const m = a.length, n = b.length;
         let prev = new Uint32Array(n + 1);
         let curr = new Uint32Array(n + 1);
-
         for (let i = 1; i <= m; i++) {
             for (let j = 1; j <= n; j++) {
-                if (a[i - 1] === b[j - 1]) {
-                    curr[j] = prev[j - 1] + 1;
-                } else {
-                    curr[j] = Math.max(prev[j], curr[j - 1]);
-                }
+                if (a[i - 1] === b[j - 1]) curr[j] = prev[j - 1] + 1;
+                else curr[j] = Math.max(prev[j], curr[j - 1]);
             }
             [prev, curr] = [curr, prev];
             curr.fill(0);
@@ -707,73 +754,48 @@
         return prev;
     }
 
-    function reverseStr(s) {
-        return Array.from(s).reverse().join('');
-    }
+    function reverseStr(s) { return Array.from(s).reverse().join(''); }
 
     // ===== Build Diff Segments =====
     function buildDiffSegments(alignment) {
-        // Group alignment into segments: consecutive matches or consecutive diffs
         const segments = [];
         let currentDiff = null;
-
         for (const op of alignment) {
             if (op.type === 'match') {
-                if (currentDiff) {
-                    segments.push(currentDiff);
-                    currentDiff = null;
-                }
+                if (currentDiff) { segments.push(currentDiff); currentDiff = null; }
                 segments.push({ type: 'match', char: op.charA });
             } else {
-                if (!currentDiff) {
-                    currentDiff = { type: 'diff', charsA: '', charsB: '' };
-                }
-                if (op.type === 'deleteA') {
-                    currentDiff.charsA += op.charA;
-                } else if (op.type === 'insertB') {
-                    currentDiff.charsB += op.charB;
-                }
+                if (!currentDiff) currentDiff = { type: 'diff', charsA: '', charsB: '' };
+                if (op.type === 'deleteA') currentDiff.charsA += op.charA;
+                else if (op.type === 'insertB') currentDiff.charsB += op.charB;
             }
         }
-        if (currentDiff) {
-            segments.push(currentDiff);
-        }
-
+        if (currentDiff) segments.push(currentDiff);
         return segments;
     }
 
-    // ===== Preprocess: strip whitespace/newlines for pure character comparison =====
-    function stripWhitespace(text) {
-        return text.replace(/[\s\r\n\t\u3000]/g, '');
-    }
+    function stripWhitespace(text) { return text.replace(/[\s\r\n\t\u3000]/g, ''); }
 
-    // ===== CJK Character Detection =====
-    // Returns true if the character is a CJK ideograph (한자)
     function isCJK(ch) {
         const code = ch.codePointAt(0);
         return (
-            (code >= 0x4E00 && code <= 0x9FFF) ||   // CJK Unified Ideographs
-            (code >= 0x3400 && code <= 0x4DBF) ||   // CJK Unified Ideographs Extension A
-            (code >= 0x20000 && code <= 0x2A6DF) || // Extension B
-            (code >= 0x2A700 && code <= 0x2B73F) || // Extension C
-            (code >= 0x2B740 && code <= 0x2B81F) || // Extension D
-            (code >= 0x2B820 && code <= 0x2CEAF) || // Extension E
-            (code >= 0x2CEB0 && code <= 0x2EBEF) || // Extension F
-            (code >= 0x30000 && code <= 0x3134F) || // Extension G
-            (code >= 0xF900 && code <= 0xFAFF) ||   // CJK Compatibility Ideographs
-            (code >= 0x2F800 && code <= 0x2FA1F)    // CJK Compatibility Ideographs Supplement
+            (code >= 0x4E00 && code <= 0x9FFF) ||
+            (code >= 0x3400 && code <= 0x4DBF) ||
+            (code >= 0x20000 && code <= 0x2A6DF) ||
+            (code >= 0x2A700 && code <= 0x2B73F) ||
+            (code >= 0x2B740 && code <= 0x2B81F) ||
+            (code >= 0x2B820 && code <= 0x2CEAF) ||
+            (code >= 0x2CEB0 && code <= 0x2EBEF) ||
+            (code >= 0x30000 && code <= 0x3134F) ||
+            (code >= 0xF900 && code <= 0xFAFF) ||
+            (code >= 0x2F800 && code <= 0x2FA1F)
         );
     }
 
-    // Separates text into CJK-only string and a position map for non-CJK characters (개선됨)
-    // Returns { cjkOnly: string, nonCjkMap: Map<cjkIndex, string> }
-    // nonCjkMap[i] = string of non-CJK chars that appear BEFORE the i-th CJK character
-    // nonCjkMap[-1] = non-CJK chars that appear AFTER the last CJK character
     function separateCJK(text) {
         const cjkChars = [];
         const nonCjkMap = new Map();
         let pendingNonCjk = [];
-
         for (const ch of text) {
             if (isCJK(ch)) {
                 const idx = cjkChars.length;
@@ -786,155 +808,82 @@
                 pendingNonCjk.push(ch);
             }
         }
-        // Trailing non-CJK chars (after the last CJK character)
-        if (pendingNonCjk.length > 0) {
-            nonCjkMap.set(-1, pendingNonCjk.join(''));
-        }
-
+        if (pendingNonCjk.length > 0) nonCjkMap.set(-1, pendingNonCjk.join(''));
         return { cjkOnly: cjkChars.join(''), nonCjkMap };
     }
 
-    // ===== Compare Two Texts (개선됨) =====
     function compareTexts(fileA, fileB, idxA, idxB) {
         const cleanA = stripWhitespace(fileA.content);
         const cleanB = stripWhitespace(fileB.content);
-
-        // 빈 텍스트 체크
-        if (!cleanA || cleanA.length === 0) {
-            throw new Error(`파일 ${fileA.name}에 내용이 없습니다.`);
-        }
-        if (!cleanB || cleanB.length === 0) {
-            throw new Error(`파일 ${fileB.name}에 내용이 없습니다.`);
-        }
-
-        // Separate CJK from non-CJK
+        if (!cleanA || cleanA.length === 0) throw new Error(`파일 ${fileA.name}에 내용이 없습니다.`);
+        if (!cleanB || cleanB.length === 0) throw new Error(`파일 ${fileB.name}에 내용이 없습니다.`);
         const parsedA = separateCJK(cleanA);
         const parsedB = separateCJK(cleanB);
-        
-        // 한자가 없는 경우 경고
-        if (parsedA.cjkOnly.length === 0) {
-            console.warn(`경고: 파일 ${fileA.name}에 한자가 없습니다.`);
-        }
-        if (parsedB.cjkOnly.length === 0) {
-            console.warn(`경고: 파일 ${fileB.name}에 한자가 없습니다.`);
-        }
-
-        // Compare CJK characters only
+        if (parsedA.cjkOnly.length === 0) console.warn(`경고: 파일 ${fileA.name}에 한자가 없습니다.`);
+        if (parsedB.cjkOnly.length === 0) console.warn(`경고: 파일 ${fileB.name}에 한자가 없습니다.`);
         const alignment = computeLCS(parsedA.cjkOnly, parsedB.cjkOnly);
         const segments = buildDiffSegments(alignment);
-
-        // Count statistics (CJK only)
-        let matchCount = 0;
-        let diffCharsA = 0;
-        let diffCharsB = 0;
-
+        let matchCount = 0, diffCharsA = 0, diffCharsB = 0;
         segments.forEach(seg => {
-            if (seg.type === 'match') {
-                matchCount++;
-            } else {
-                diffCharsA += seg.charsA.length;
-                diffCharsB += seg.charsB.length;
-            }
+            if (seg.type === 'match') matchCount++;
+            else { diffCharsA += seg.charsA.length; diffCharsB += seg.charsB.length; }
         });
-
         return {
-            fileA: fileA,
-            fileB: fileB,
-            segments: segments,
-            parsedA: parsedA,
-            parsedB: parsedB,
-            alignment: alignment,  // alignment 정보도 함께 저장 (원본 인덱스 포함)
-            stats: {
-                totalA: parsedA.cjkOnly.length,
-                totalB: parsedB.cjkOnly.length,
-                matchCount: matchCount,
-                diffCharsA: diffCharsA,
-                diffCharsB: diffCharsB,
-            }
+            fileA, fileB, segments, parsedA, parsedB, alignment,
+            stats: { totalA: parsedA.cjkOnly.length, totalB: parsedB.cjkOnly.length, matchCount, diffCharsA, diffCharsB }
         };
     }
 
-    // ===== Helper: render non-CJK chars as neutral (gray) spans =====
     function renderNonCjk(chars) {
         if (!chars || chars.length === 0) return '';
         const str = typeof chars === 'string' ? chars : chars.join('');
         return `<span class="non-cjk">${escapeHtml(str)}</span>`;
     }
 
-    // ===== Build HTML for one comparison pair (완전히 재작성 - 원본 인덱스 사용) =====
     function buildPairHtml(result, idxA, idxB) {
         const { fileA, fileB, alignment, parsedA, parsedB, stats } = result;
         const labelA = fileLabels[idxA] || `F${idxA}`;
         const labelB = fileLabels[idxB] || `F${idxB}`;
-
         const totalDiffA = stats.diffCharsA;
         const totalDiffB = stats.diffCharsB;
         const diffPctA = stats.totalA > 0 ? (totalDiffA / stats.totalA * 100).toFixed(2) : '0.00';
         const diffPctB = stats.totalB > 0 ? (totalDiffB / stats.totalB * 100).toFixed(2) : '0.00';
-
-        let htmlA = '';
-        let htmlB = '';
-        let htmlCombined = '';
-
-        // alignment를 순회하면서:
-        // - non-CJK 문자는 원본 인덱스로 복원
-        // - diff 구간(연속 deleteA/insertB)을 묶어서 서로의 대응 문자열을 title에 표시
-        let diffRunA = []; // [{ idxA, charA }]
-        let diffRunB = []; // [{ idxB, charB }]
+        let htmlA = '', htmlB = '', htmlCombined = '';
+        let diffRunA = [], diffRunB = [];
 
         function flushDiffRun() {
             if (diffRunA.length === 0 && diffRunB.length === 0) return;
-
             const aStr = diffRunA.map(x => x.charA).join('');
             const bStr = diffRunB.map(x => x.charB).join('');
             const escapedAStr = escapeHtml(aStr);
             const escapedBStr = escapeHtml(bStr);
-
-            // A 전용 diff 문자 렌더링: title에 B 문자열(없으면 '(없음)') 표시
             for (const x of diffRunA) {
                 const nonCjkA = parsedA.nonCjkMap.get(x.idxA);
-                if (nonCjkA) {
-                    htmlA += renderNonCjk(nonCjkA);
-                    htmlCombined += renderNonCjk(nonCjkA);
-                }
-
+                if (nonCjkA) { htmlA += renderNonCjk(nonCjkA); htmlCombined += renderNonCjk(nonCjkA); }
                 const titleB = escapedBStr.length > 0 ? escapedBStr : '(없음)';
-                htmlA += `<span class="diff" title="파일 ${labelB}: ${titleB}">${escapeHtml(x.charA)}</span>`;
-                htmlCombined += `<span class="diff diff-a" title="파일 ${labelB}: ${titleB}">${escapeHtml(x.charA)}</span>`;
+                htmlA += `<span class="diff" data-other="${labelB}" data-info="${titleB}">${escapeHtml(x.charA)}</span>`;
+                htmlCombined += `<span class="diff diff-a" data-other="${labelB}" data-info="${titleB}">${escapeHtml(x.charA)}</span>`;
             }
-
-            // B 전용 diff 문자 렌더링: title에 A 문자열(없으면 '(없음)') 표시
             for (const x of diffRunB) {
                 const nonCjkB = parsedB.nonCjkMap.get(x.idxB);
-                if (nonCjkB) {
-                    htmlB += renderNonCjk(nonCjkB);
-                    htmlCombined += renderNonCjk(nonCjkB);
-                }
-
+                if (nonCjkB) { htmlB += renderNonCjk(nonCjkB); htmlCombined += renderNonCjk(nonCjkB); }
                 const titleA = escapedAStr.length > 0 ? escapedAStr : '(없음)';
-                htmlB += `<span class="diff" title="파일 ${labelA}: ${titleA}">${escapeHtml(x.charB)}</span>`;
-                htmlCombined += `<span class="diff diff-b" title="파일 ${labelA}: ${titleA}">${escapeHtml(x.charB)}</span>`;
+                htmlB += `<span class="diff" data-other="${labelA}" data-info="${titleA}">${escapeHtml(x.charB)}</span>`;
+                htmlCombined += `<span class="diff diff-b" data-other="${labelA}" data-info="${titleA}">${escapeHtml(x.charB)}</span>`;
             }
-
             diffRunA = [];
             diffRunB = [];
         }
 
         for (const op of alignment) {
             if (op.type === 'match') {
-                // diff 구간이 끝났으면 먼저 반영
                 flushDiffRun();
-
-                // 매칭된 경우: 원본 인덱스를 사용하여 non-CJK 문자 가져오기
                 const nonCjkA = parsedA.nonCjkMap.get(op.idxA);
                 const nonCjkB = parsedB.nonCjkMap.get(op.idxB);
-
                 if (nonCjkA) htmlA += renderNonCjk(nonCjkA);
                 if (nonCjkB) htmlB += renderNonCjk(nonCjkB);
-                // 통합 보기에서는 파일 A의 non-CJK를 우선 사용
                 if (nonCjkA) htmlCombined += renderNonCjk(nonCjkA);
                 else if (nonCjkB) htmlCombined += renderNonCjk(nonCjkB);
-
                 const escaped = escapeHtml(op.charA);
                 htmlA += `<span class="match">${escaped}</span>`;
                 htmlB += `<span class="match">${escaped}</span>`;
@@ -945,104 +894,83 @@
                 diffRunB.push({ idxB: op.idxB, charB: op.charB });
             }
         }
-        // 마지막 diff 구간 반영
         flushDiffRun();
-        
-        // 마지막에 남은 non-CJK 문자 추가
         const trailA = parsedA.nonCjkMap.get(-1);
         const trailB = parsedB.nonCjkMap.get(-1);
-        if (trailA) { 
-            htmlA += renderNonCjk(trailA); 
-            htmlCombined += renderNonCjk(trailA); 
-        }
-        if (trailB) { 
-            htmlB += renderNonCjk(trailB); 
-            // 통합 보기에서 파일 B의 trailing non-CJK도 추가
-            if (!trailA) htmlCombined += renderNonCjk(trailB);
-        }
+        if (trailA) { htmlA += renderNonCjk(trailA); htmlCombined += renderNonCjk(trailA); }
+        if (trailB) { htmlB += renderNonCjk(trailB); if (!trailA) htmlCombined += renderNonCjk(trailB); }
 
         return { labelA, labelB, fileA, fileB, stats, totalDiffA, totalDiffB, diffPctA, diffPctB, htmlA, htmlB, htmlCombined };
     }
 
-    // ===== Open ONE Result Window with ALL pairs =====
-    function openResultWindow(allResults) {
-        // Build each pair's section
+    // ===== Generate Result HTML (Mobile-optimized) =====
+    function generateResultHtml(allResults) {
         const pairSections = allResults.map(({ result, idxA, idxB }, pairIdx) => {
             const p = buildPairHtml(result, idxA, idxB);
             const pairId = `pair${pairIdx}`;
-
             return `
-    <!-- ===== Pair ${pairIdx}: ${escapeHtml(p.labelA)} ↔ ${escapeHtml(p.labelB)} ===== -->
     <div class="pair-section" id="${pairId}">
         <div class="header">
-            <h1>파일 ${escapeHtml(p.labelA)} (${escapeHtml(p.fileA.name)}) ↔ 파일 ${escapeHtml(p.labelB)} (${escapeHtml(p.fileB.name)})</h1>
+            <h1>${escapeHtml(p.labelA)} (${escapeHtml(p.fileA.name)}) ↔ ${escapeHtml(p.labelB)} (${escapeHtml(p.fileB.name)})</h1>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelA)} 한자 수</div>
-                    <div class="stat-value">${p.stats.totalA.toLocaleString()}자</div>
+                    <div class="stat-label">${escapeHtml(p.labelA)} 한자 수</div>
+                    <div class="stat-value">${p.stats.totalA.toLocaleString()}<small>자</small></div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelB)} 한자 수</div>
-                    <div class="stat-value">${p.stats.totalB.toLocaleString()}자</div>
+                    <div class="stat-label">${escapeHtml(p.labelB)} 한자 수</div>
+                    <div class="stat-value">${p.stats.totalB.toLocaleString()}<small>자</small></div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-label">동일한 한자 (검정)</div>
-                    <div class="stat-value">${p.stats.matchCount.toLocaleString()}자</div>
-                </div>
-                <div class="stat-card diff-stat">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelA)} 상이한 한자 (빨강)</div>
-                    <div class="stat-value">${p.totalDiffA.toLocaleString()}자</div>
+                <div class="stat-card match-stat">
+                    <div class="stat-label">동일 한자</div>
+                    <div class="stat-value">${p.stats.matchCount.toLocaleString()}<small>자</small></div>
                 </div>
                 <div class="stat-card diff-stat">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelB)} 상이한 한자 (빨강)</div>
-                    <div class="stat-value">${p.totalDiffB.toLocaleString()}자</div>
+                    <div class="stat-label">${escapeHtml(p.labelA)} 차이</div>
+                    <div class="stat-value">${p.totalDiffA.toLocaleString()}<small>자</small> <span class="pct">${p.diffPctA}%</span></div>
                 </div>
-                <div class="stat-card pct-stat">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelA)} 차이 비율</div>
-                    <div class="stat-value">${p.diffPctA}%</div>
-                </div>
-                <div class="stat-card pct-stat">
-                    <div class="stat-label">파일 ${escapeHtml(p.labelB)} 차이 비율</div>
-                    <div class="stat-value">${p.diffPctB}%</div>
+                <div class="stat-card diff-stat">
+                    <div class="stat-label">${escapeHtml(p.labelB)} 차이</div>
+                    <div class="stat-value">${p.totalDiffB.toLocaleString()}<small>자</small> <span class="pct">${p.diffPctB}%</span></div>
                 </div>
             </div>
             <div class="legend">
-                <div class="legend-item"><span class="legend-color" style="background:#000"></span> 동일한 한자</div>
-                <div class="legend-item"><span class="legend-color" style="background:#e74c3c"></span> 상이한 한자</div>
-                <div class="legend-item"><span class="legend-color" style="background:#ffeaea"></span> 파일 ${escapeHtml(p.labelA)} 고유</div>
-                <div class="legend-item"><span class="legend-color" style="background:#fff3cd"></span> 파일 ${escapeHtml(p.labelB)} 고유</div>
-                <div class="legend-item"><span class="legend-color" style="background:#999"></span> 문장부호·숫자·영어 (통계 제외)</div>
+                <span class="legend-item"><span class="legend-dot" style="background:#000"></span>동일</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#c0392b"></span>상이</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#ffeaea"></span>${escapeHtml(p.labelA)} 고유</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#fff3cd"></span>${escapeHtml(p.labelB)} 고유</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#999"></span>부호·숫자</span>
             </div>
         </div>
 
         <div class="view-toolbar">
-            <button class="view-btn active" onclick="switchView('${pairId}', 'combined', this)">통합 보기</button>
-            <button class="view-btn" onclick="switchView('${pairId}', 'fileA', this)">파일 ${escapeHtml(p.labelA)} 보기</button>
-            <button class="view-btn" onclick="switchView('${pairId}', 'fileB', this)">파일 ${escapeHtml(p.labelB)} 보기</button>
-            <button class="view-btn" onclick="switchView('${pairId}', 'sideBySide', this)">나란히 보기</button>
+            <button class="view-btn active" onclick="switchView('${pairId}', 'combined', this)">통합</button>
+            <button class="view-btn" onclick="switchView('${pairId}', 'fileA', this)">${escapeHtml(p.labelA)}본</button>
+            <button class="view-btn" onclick="switchView('${pairId}', 'fileB', this)">${escapeHtml(p.labelB)}본</button>
+            <button class="view-btn" onclick="switchView('${pairId}', 'sideBySide', this)">나란히</button>
         </div>
 
         <div class="text-panel active" data-pair="${pairId}" data-view="combined">
-            <h2>통합 보기 — 두 파일의 차이를 한 눈에 비교</h2>
+            <div class="panel-label">통합 보기 — 두 파일의 차이를 한 눈에 비교</div>
             <div class="text-content">${p.htmlCombined}</div>
         </div>
         <div class="text-panel" data-pair="${pairId}" data-view="fileA">
-            <h2>파일 ${escapeHtml(p.labelA)} (${escapeHtml(p.fileA.name)}) — 빨간 글자에 마우스를 올리면 대응 글자 확인</h2>
+            <div class="panel-label">${escapeHtml(p.labelA)}본 (${escapeHtml(p.fileA.name)}) — <span class="touch-hint">빨간 글자를 탭하면 대응 글자 확인</span></div>
             <div class="text-content">${p.htmlA}</div>
         </div>
         <div class="text-panel" data-pair="${pairId}" data-view="fileB">
-            <h2>파일 ${escapeHtml(p.labelB)} (${escapeHtml(p.fileB.name)}) — 빨간 글자에 마우스를 올리면 대응 글자 확인</h2>
+            <div class="panel-label">${escapeHtml(p.labelB)}본 (${escapeHtml(p.fileB.name)}) — <span class="touch-hint">빨간 글자를 탭하면 대응 글자 확인</span></div>
             <div class="text-content">${p.htmlB}</div>
         </div>
         <div class="text-panel" data-pair="${pairId}" data-view="sideBySide">
-            <h2>나란히 보기</h2>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
-                <div>
-                    <h3 style="color:#7f8c8d; font-size:0.9em; margin-bottom:10px;">파일 ${escapeHtml(p.labelA)} (${escapeHtml(p.fileA.name)})</h3>
-                    <div class="text-content" style="border-right:2px solid #eee; padding-right:15px;">${p.htmlA}</div>
+            <div class="panel-label">나란히 보기</div>
+            <div class="side-by-side">
+                <div class="side-col">
+                    <div class="side-label">${escapeHtml(p.labelA)}본</div>
+                    <div class="text-content">${p.htmlA}</div>
                 </div>
-                <div>
-                    <h3 style="color:#7f8c8d; font-size:0.9em; margin-bottom:10px;">파일 ${escapeHtml(p.labelB)} (${escapeHtml(p.fileB.name)})</h3>
+                <div class="side-col">
+                    <div class="side-label">${escapeHtml(p.labelB)}본</div>
                     <div class="text-content">${p.htmlB}</div>
                 </div>
             </div>
@@ -1050,7 +978,6 @@
     </div>`;
         });
 
-        // Build pair navigation tabs
         const pairTabs = allResults.map(({ result, idxA, idxB }, pairIdx) => {
             const lA = fileLabels[idxA] || `F${idxA}`;
             const lB = fileLabels[idxB] || `F${idxB}`;
@@ -1058,105 +985,380 @@
             return `<button class="pair-tab${active}" onclick="switchPair(${pairIdx}, this)">${escapeHtml(lA)} ↔ ${escapeHtml(lB)}</button>`;
         }).join('\n            ');
 
-        const resultHtml = `<!DOCTYPE html>
+        return `<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>교감 결과</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --ink: #1a1a2e;
+            --paper: #f7f5f0;
+            --accent: #8b4513;
+            --accent-light: #d4a574;
+            --border: #d4cfc4;
+            --subtle: #6b6459;
+            --card-bg: #fffef9;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Noto Sans CJK KR', 'Noto Sans CJK TC', 'Noto Sans CJK SC', 'Noto Sans CJK JP',
-                         'Source Han Sans', 'Malgun Gothic', 'Microsoft YaHei', 'PingFang SC',
-                         'Hiragino Sans', 'SimSun', 'MingLiU', sans-serif;
-            background: #fafafa; color: #333; padding: 20px; line-height: 1.8;
+            font-family: 'Noto Sans KR', 'Noto Sans CJK KR', 'Malgun Gothic', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.8;
+            -webkit-text-size-adjust: 100%;
         }
-        /* Top navigation: pair tabs */
+        body::before {
+            content: '';
+            display: block;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light), var(--accent));
+        }
+
+        /* ===== Top Bar ===== */
         .top-bar {
-            background: #2c3e50; border-radius: 12px; padding: 15px 20px;
-            margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;
+            background: var(--ink);
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
         .top-bar-title {
-            color: #fff; font-weight: bold; font-size: 1.1em; margin-right: 15px;
+            color: var(--accent-light);
+            font-weight: 700;
+            font-size: 0.9em;
+            margin-right: 8px;
+            font-family: 'Noto Serif KR', serif;
         }
         .pair-tab {
-            padding: 8px 18px; border: none; border-radius: 6px;
-            cursor: pointer; font-size: 0.9em; font-weight: bold;
-            background: rgba(255,255,255,0.15); color: #ecf0f1;
+            padding: 6px 14px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 500;
+            background: transparent;
+            color: rgba(255,255,255,0.7);
             transition: all 0.2s;
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        .pair-tab:hover { background: rgba(255,255,255,0.3); }
-        .pair-tab.active { background: #3498db; color: #fff; }
-        .btn-save-all {
-            margin-left: auto; padding: 8px 18px; border: none; border-radius: 6px;
-            cursor: pointer; font-size: 0.9em; font-weight: bold;
-            background: #27ae60; color: #fff; transition: all 0.2s;
+        .pair-tab:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .pair-tab.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
         }
-        .btn-save-all:hover { background: #219a52; }
-        /* Pair sections */
+        .btn-save {
+            margin-left: auto;
+            padding: 6px 14px;
+            border: 1px solid var(--accent-light);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 500;
+            background: transparent;
+            color: var(--accent-light);
+            transition: all 0.2s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .btn-save:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* ===== Content ===== */
+        .content-wrap {
+            margin: 0 auto;
+            padding: 20px 24px 60px;
+        }
+
         .pair-section { display: none; }
         .pair-section.active { display: block; }
+
+        /* ===== Header / Stats ===== */
         .header {
-            background: #fff; border-radius: 12px; padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
         }
-        .header h1 { font-size: 1.5em; color: #2c3e50; margin-bottom: 15px; }
+        .header h1 {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.1em;
+            color: var(--ink);
+            margin-bottom: 14px;
+            line-height: 1.4;
+        }
         .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px; margin-bottom: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin-bottom: 12px;
         }
         .stat-card {
-            background: #f8f9fa; border-radius: 8px; padding: 12px 16px;
-            border-left: 4px solid #3498db;
+            background: var(--paper);
+            border-radius: 6px;
+            padding: 10px 12px;
+            border-left: 3px solid var(--accent-light);
         }
-        .stat-card.diff-stat { border-left-color: #e74c3c; }
-        .stat-card.pct-stat { border-left-color: #f39c12; }
-        .stat-label { font-size: 0.8em; color: #7f8c8d; }
-        .stat-value { font-size: 1.4em; font-weight: bold; color: #2c3e50; }
+        .stat-card.match-stat { border-left-color: #27ae60; }
+        .stat-card.diff-stat { border-left-color: #c0392b; }
+        .stat-label {
+            font-size: 0.72em;
+            color: var(--subtle);
+            line-height: 1.3;
+        }
+        .stat-value {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        .stat-value small {
+            font-size: 0.65em;
+            font-weight: 400;
+            color: var(--subtle);
+        }
+        .stat-value .pct {
+            font-size: 0.7em;
+            font-weight: 400;
+            color: #c0392b;
+        }
+
+        .legend {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            font-size: 0.75em;
+            color: var(--subtle);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            display: inline-block;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        /* ===== View Toolbar ===== */
         .view-toolbar {
-            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 4px;
         }
         .view-btn {
-            padding: 8px 18px; border: none; border-radius: 6px;
-            cursor: pointer; font-size: 0.9em; font-weight: bold;
-            background: #ecf0f1; color: #2c3e50; transition: all 0.2s;
+            padding: 7px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.82em;
+            font-weight: 500;
+            background: var(--card-bg);
+            color: var(--subtle);
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            font-family: 'Noto Sans KR', sans-serif;
         }
-        .view-btn:hover { background: #d5dbdb; }
-        .view-btn.active { background: #3498db; color: #fff; }
+        .view-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .view-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        /* ===== Text Panels ===== */
         .text-panel {
-            background: #fff; border-radius: 12px; padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            font-size: 1.2em; line-height: 2; display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 1.15em;
+            line-height: 2;
+            display: none;
         }
         .text-panel.active { display: block; }
-        .text-panel h2 {
-            font-size: 1em; color: #7f8c8d; margin-bottom: 15px;
-            padding-bottom: 10px; border-bottom: 1px solid #eee;
+
+        .panel-label {
+            font-size: 0.78em;
+            color: var(--subtle);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+            line-height: 1.5;
         }
-        .match { color: #000; }
-        .diff { color: #e74c3c; font-weight: bold; cursor: help; }
+        .touch-hint {
+            color: var(--accent);
+        }
+
+        .match { color: var(--ink); }
+        .diff {
+            color: #c0392b;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+        }
         .diff-a { background: #ffeaea; border-radius: 2px; padding: 0 1px; }
         .diff-b { background: #fff3cd; border-radius: 2px; padding: 0 1px; }
         .non-cjk { color: #999; font-weight: normal; }
-        .legend { display: flex; gap: 20px; margin-top: 10px; font-size: 0.85em; color: #555; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 5px; }
-        .legend-color { width: 16px; height: 16px; border-radius: 3px; display: inline-block; }
+
+        /* Tooltip for PC (hover) */
+        .diff::after {
+            content: attr(data-other) ': ' attr(data-info);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: #fff;
+            font-size: 0.72em;
+            font-weight: 400;
+            padding: 4px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+            z-index: 10;
+            line-height: 1.4;
+            max-width: 280px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .diff:hover::after {
+            opacity: 1;
+        }
+
+        /* ===== Mobile Tooltip (tap popup) ===== */
+        .diff-popup {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--ink);
+            color: #fff;
+            font-size: 0.88rem;
+            font-weight: 400;
+            padding: 10px 20px;
+            border-radius: 8px;
+            z-index: 200;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            max-width: 90vw;
+            text-align: center;
+            line-height: 1.5;
+            pointer-events: none;
+            animation: popupIn 0.2s ease-out;
+        }
+        .diff-popup .popup-char {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #e74c3c;
+        }
+        .diff-popup .popup-arrow {
+            color: var(--accent-light);
+            margin: 0 6px;
+        }
+        .diff-popup .popup-other {
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        @keyframes popupIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ===== Side by Side ===== */
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .side-col {
+            min-width: 0;
+        }
+        .side-label {
+            font-size: 0.78em;
+            color: var(--subtle);
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        /* ===== Mobile Responsive ===== */
+        @media (max-width: 640px) {
+            .content-wrap { padding: 12px 10px 40px; }
+            .header { padding: 14px 12px; }
+            .header h1 { font-size: 0.95em; }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .stat-card { padding: 8px 10px; }
+            .stat-value { font-size: 1em; }
+            .text-panel {
+                padding: 14px 10px;
+                font-size: 1em;
+                line-height: 1.9;
+            }
+            .top-bar { padding: 10px 12px; gap: 6px; }
+            .top-bar-title { font-size: 0.82em; margin-right: 4px; }
+            .pair-tab { padding: 5px 10px; font-size: 0.75em; }
+            .btn-save { padding: 5px 10px; font-size: 0.75em; }
+
+            /* Side-by-side becomes stacked on mobile */
+            .side-by-side {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .side-col {
+                padding-bottom: 12px;
+                border-bottom: 1px solid var(--border);
+            }
+            .side-col:last-child { border-bottom: none; }
+
+            /* Hide CSS tooltips on touch devices */
+            .diff::after { display: none; }
+
+            .view-toolbar { gap: 4px; }
+            .view-btn { padding: 6px 12px; font-size: 0.78em; }
+        }
+
+        @media (max-width: 360px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <span class="top-bar-title">漢文 교감 결과</span>
+        <span class="top-bar-title">漢文 교감</span>
         ${pairTabs}
-        <button class="btn-save-all" onclick="saveHtml()">HTML 저장</button>
+        <button class="btn-save" onclick="saveHtml()">HTML 저장</button>
     </div>
 
-    ${pairSections.join('\n')}
+    <div class="content-wrap">
+        ${pairSections.join('\n')}
+    </div>
+
+    <!-- Mobile tap popup -->
+    <div class="diff-popup" id="diffPopup" style="display:none;"></div>
 
     <script>
-    // Show first pair by default
     document.querySelector('.pair-section').classList.add('active');
 
     function switchPair(pairIdx, btn) {
@@ -1179,6 +1381,50 @@
         if (btn) btn.classList.add('active');
     }
 
+    // ===== Mobile Touch Tooltip =====
+    (function() {
+        const popup = document.getElementById('diffPopup');
+        let popupTimer = null;
+
+        function showPopup(el) {
+            const char = el.textContent;
+            const other = el.getAttribute('data-other') || '';
+            const info = el.getAttribute('data-info') || '';
+            popup.innerHTML = '<span class="popup-char">' + char + '</span>'
+                + '<span class="popup-arrow">→</span>'
+                + '<span class="popup-other">' + other + ': ' + info + '</span>';
+            popup.style.display = 'block';
+            clearTimeout(popupTimer);
+            popupTimer = setTimeout(function() {
+                popup.style.display = 'none';
+            }, 3000);
+        }
+
+        function hidePopup() {
+            clearTimeout(popupTimer);
+            popup.style.display = 'none';
+        }
+
+        // Touch events for mobile
+        document.addEventListener('touchstart', function(e) {
+            const diffEl = e.target.closest('.diff');
+            if (diffEl && diffEl.getAttribute('data-info')) {
+                e.preventDefault();
+                showPopup(diffEl);
+            } else {
+                hidePopup();
+            }
+        }, { passive: false });
+
+        // Click fallback for desktop (if no hover support)
+        document.addEventListener('click', function(e) {
+            const diffEl = e.target.closest('.diff');
+            if (diffEl && diffEl.getAttribute('data-info')) {
+                showPopup(diffEl);
+            }
+        });
+    })();
+
     function saveHtml() {
         const content = document.documentElement.outerHTML;
         const blob = new Blob(['<!DOCTYPE html>' + content], { type: 'text/html; charset=utf-8' });
@@ -1194,7 +1440,11 @@
     <\/script>
 </body>
 </html>`;
+    }
 
+    // ===== Open Result Window =====
+    function openResultWindow(allResults) {
+        const resultHtml = generateResultHtml(allResults);
         const newWin = window.open('', '_blank');
         if (newWin) {
             newWin.document.write(resultHtml);
