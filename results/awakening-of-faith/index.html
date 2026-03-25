@@ -476,17 +476,52 @@
         let popupTimer = null;
 
         function getDiffRun(el) {
+            const info = el.getAttribute('data-info') || '';
+            const other = el.getAttribute('data-other') || '';
             const run = [el];
+
             let prev = el.previousElementSibling;
-            while (prev && prev.classList.contains('diff')) {
-                run.unshift(prev);
-                prev = prev.previousElementSibling;
+            while (prev) {
+                if (prev.classList.contains('diff')
+                    && prev.getAttribute('data-info') === info
+                    && prev.getAttribute('data-other') === other) {
+                    run.unshift(prev);
+                    prev = prev.previousElementSibling;
+                } else if (prev.classList.contains('non-cjk')) {
+                    var peek = prev.previousElementSibling;
+                    if (peek && peek.classList.contains('diff')
+                        && peek.getAttribute('data-info') === info
+                        && peek.getAttribute('data-other') === other) {
+                        prev = prev.previousElementSibling;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
             }
+
             let next = el.nextElementSibling;
-            while (next && next.classList.contains('diff')) {
-                run.push(next);
-                next = next.nextElementSibling;
+            while (next) {
+                if (next.classList.contains('diff')
+                    && next.getAttribute('data-info') === info
+                    && next.getAttribute('data-other') === other) {
+                    run.push(next);
+                    next = next.nextElementSibling;
+                } else if (next.classList.contains('non-cjk')) {
+                    var peek = next.nextElementSibling;
+                    if (peek && peek.classList.contains('diff')
+                        && peek.getAttribute('data-info') === info
+                        && peek.getAttribute('data-other') === other) {
+                        next = next.nextElementSibling;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
             }
+
             return run;
         }
 
