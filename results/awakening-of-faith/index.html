@@ -475,11 +475,27 @@
         const popup = document.getElementById('diffPopup');
         let popupTimer = null;
 
+        function getDiffRun(el) {
+            const run = [el];
+            let prev = el.previousElementSibling;
+            while (prev && prev.classList.contains('diff')) {
+                run.unshift(prev);
+                prev = prev.previousElementSibling;
+            }
+            let next = el.nextElementSibling;
+            while (next && next.classList.contains('diff')) {
+                run.push(next);
+                next = next.nextElementSibling;
+            }
+            return run;
+        }
+
         function showPopup(el) {
-            const char = el.textContent;
+            const run = getDiffRun(el);
+            const chars = run.map(function(e) { return e.textContent; }).join('');
             const other = el.getAttribute('data-other') || '';
             const info = el.getAttribute('data-info') || '';
-            popup.innerHTML = '<span class="popup-char">' + char + '</span>'
+            popup.innerHTML = '<span class="popup-char">' + chars + '</span>'
                 + '<span class="popup-arrow">→</span>'
                 + '<span class="popup-other">' + other + ': ' + info + '</span>';
             popup.style.display = 'block';
