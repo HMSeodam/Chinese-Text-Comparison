@@ -4,11 +4,45 @@
 
 교감학(校勘學) 연구 및 이본(異本) 대조 작업을 자동화하여 연구의 효율성과 정확성을 극대화합니다.
 
+> 🔧 **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)
+> 
 > 📖 **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
 ---
 
 ##  최신 버전 소식 (Changelog)
+
+### ver1.2 (2026-03-25)
+
+#### ・ 모바일 최적화
+
+* 교감 결과 페이지에 반응형 레이아웃을 적용했습니다. PC와 모바일 모두에서 쾌적하게 열람할 수 있습니다.
+
+* 모바일에서 빨간 글자를 탭하면 화면 하단 팝업으로 대응 글자 정보가 표시됩니다. (PC에서는 기존 hover 툴팁 유지)
+
+* 나란히 보기가 모바일에서는 상하 배치로 자동 전환됩니다.
+
+* 통계 카드가 화면 크기에 따라 2열/1열로 자동 조절됩니다.
+
+#### ・ UI 개선
+
+* 교감 실행 페이지와 결과 페이지의 디자인을 한지 톤으로 통일했습니다.
+
+* Noto Serif KR / Noto Sans KR 웹폰트를 적용하여 한자 가독성을 높였습니다.
+
+* 상단 바를 sticky로 처리하여 스크롤 중에도 뷰 전환·저장 버튼에 접근할 수 있습니다.
+
+* PC에서 결과 화면이 브라우저 전체 폭을 활용하도록 개선했습니다.
+
+#### ・ 웹 실행 지원
+
+* `교감 실행.html`을 GitHub Pages에서 바로 열어 사용할 수 있습니다. 다운로드 없이 브라우저에서 즉시 교감 작업이 가능합니다.
+
+#### ・ 기술적 변경
+
+* 차이 표시 span의 `title` 속성을 `data-other`/`data-info` 속성으로 전환하여 CSS 툴팁과 JS 터치 팝업을 동시에 지원합니다.
+
+* 결과 페이지에 목록 복귀 링크(`← 목록`)를 추가했습니다.
 
 ### ver1.1 (2026-03-12)
 
@@ -52,23 +86,29 @@
   
 * **보안 및 오프라인 동작**: 서버 전송 없이 브라우저 내에서 모든 처리가 이루어져 소중한 연구 자료를 안전하게 보호합니다.
 
+* **PC·모바일 대응**: 교감 실행과 결과 열람 모두 PC와 모바일에서 최적화된 환경을 제공합니다.
+
 ---
 
 ##  실행 방법
 
-### 1. 프로그램 다운로드
+### 방법 1. 웹에서 바로 실행 (권장)
 
-1. **[최신 버전(v1.1) 다운로드 받기](https://github.com/HMSeodam/Chinese-Text-Comparison/archive/refs/tags/v1.1.zip)**
+다운로드 없이 브라우저에서 즉시 사용할 수 있습니다.
+
+→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)**
+
+### 방법 2. 다운로드 후 로컬 실행
+
+1. **[최신 버전(v1.2) 다운로드 받기](https://github.com/HMSeodam/Chinese-Text-Comparison/archive/refs/tags/v1.2.zip)**
 
 2. 위 링크를 눌러 압축 파일(`zip`)을 받고 적당한 폴더에 해제합니다.
 
-3. 이전 버전이 필요하신 분은 [Releases 페이지](https://github.com/HMSeodam/Chinese-Text-Comparison/releases)에서 모든 버전을 확인할 수 있습니다.
+3. 압축을 푼 폴더에서 `교감 실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
 
-### 2. 브라우저에서 실행
+4. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
 
-1. 압축을 푼 폴더에서 `교감 실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
-
-2. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
+5. 이전 버전이 필요하신 분은 [Releases 페이지](https://github.com/HMSeodam/Chinese-Text-Comparison/releases)에서 모든 버전을 확인할 수 있습니다.
 
 ---
 
@@ -92,7 +132,7 @@
   
     * **검정색**: 동일한 한자
       
-    * **빨간색**: 서로 다른 한자 (마우스를 올리면 툴팁으로 차이 확인 가능)
+    * **빨간색**: 서로 다른 한자 (PC: 마우스 hover 툴팁 / 모바일: 탭하면 하단 팝업)
       
     * **회색**: 문장부호 및 비한자(비교 제외)
 
@@ -118,7 +158,7 @@
 
 | 문헌 | 교감 대상 | 결과 보기 |
 |------|-----------|-----------|
-| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
+| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/Awakening_Of_Faith/) |
 
 → 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
