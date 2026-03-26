@@ -4,9 +4,9 @@
 
 교감학(校勘學) 연구 및 이본(異本) 대조 작업을 자동화하여 연구의 효율성과 정확성을 극대화합니다.
 
->  **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감실행.html)
+> 🔧 **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)
 > 
->  **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
+> 📖 **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
 ---
 
@@ -36,7 +36,7 @@
 
 #### ・ 웹 실행 지원
 
-* `교감실행.html`을 GitHub Pages에서 바로 열어 사용할 수 있습니다. 다운로드 없이 브라우저에서 즉시 교감 작업이 가능합니다.
+* `교감 실행.html`을 GitHub Pages에서 바로 열어 사용할 수 있습니다. 다운로드 없이 브라우저에서 즉시 교감 작업이 가능합니다.
 
 #### ・ 기술적 변경
 
@@ -96,7 +96,7 @@
 
 다운로드 없이 브라우저에서 즉시 사용할 수 있습니다.
 
-→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감실행.html)**
+→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)**
 
 ### 방법 2. 다운로드 후 로컬 실행
 
@@ -104,7 +104,7 @@
 
 2. 위 링크를 눌러 압축 파일(`zip`)을 받고 적당한 폴더에 해제합니다.
 
-3. 압축을 푼 폴더에서 `교감실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
+3. 압축을 푼 폴더에서 `교감 실행.html` 파일을 더블클릭하면 즉시 실행됩니다.
 
 4. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
 
@@ -158,7 +158,7 @@
 
 | 문헌 | 교감 대상 | 결과 보기 |
 |------|-----------|-----------|
-| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
+| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/Awakening_Of_Faith/) |
 
 → 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
@@ -166,9 +166,18 @@
 
 ## 라이선스
 
-* **교감 도구**: MIT License
-* **교감 데이터** (`results/`): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ko)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
+Copyright (c) 2026 **서담 한민수 (Han Minsu), 동명대학교 (Tongmyong University)**
+
+* **교감 도구 및 소스 코드**: [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ko)
+* **교감 데이터** (`results/`): [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ko)
+
+- ✅ 저작자 표시 조건 하에 공유·복제 허용
+- ❌ 상업적 이용 금지
+- ❌ 변형·2차 저작물 배포 금지
+
+상업적 이용 또는 변경 배포를 원하시는 경우 저작자에게 별도 문의하시기 바랍니다.
 자세한 내용은 [LICENSE.md](LICENSE.md)를 참고하세요.
 
 ---

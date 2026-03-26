@@ -3,13 +3,15 @@ message: "이 도구 또는 교감 데이터를 사용하셨다면 아래와 같
 title: "한문 텍스트 교감기 (Classical Chinese Text Collator)"
 type: software
 authors:
-  - name: "HMSeodam"
-    alias: "HMSeodam"
+  - family-names: "한"
+    given-names: "민수"
+    alias: "서담 (Seodam)"
+    affiliation: "동명대학교 (Tongmyong University)"
 repository-code: "https://github.com/HMSeodam/Chinese-Text-Comparison"
 url: "https://hmseodam.github.io/Chinese-Text-Comparison/"
-license: CC-BY-NC-SA-4.0
-version: "1.1"
-date-released: "2026-03-12"
+license: CC-BY-NC-ND-4.0
+version: "1.2"
+date-released: "2026-03-25"
 keywords:
   - "classical Chinese"
   - "text collation"
