@@ -96,7 +96,7 @@
 
 다운로드 없이 브라우저에서 즉시 사용할 수 있습니다.
 
-→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감%20실행.html)**
+→ **[한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/교감실행.html)**
 
 ### 방법 2. 다운로드 후 로컬 실행
 
