@@ -108,8 +108,6 @@
 
 4. Chrome, Edge, Firefox 등 최신 브라우저에 최적화되어 있습니다.
 
-5. 이전 버전이 필요하신 분은 [Releases 페이지](https://github.com/HMSeodam/Chinese-Text-Comparison/releases)에서 모든 버전을 확인할 수 있습니다.
-
 ---
 
 ##  사용 방법
