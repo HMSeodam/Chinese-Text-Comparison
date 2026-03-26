@@ -158,7 +158,7 @@
 
 | 문헌 | 교감 대상 | 결과 보기 |
 |------|-----------|-----------|
-| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/Awakening_Of_Faith/) |
+| **大乘起信論** | 진제역(T1666) ↔ 실차난타역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
 
 → 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/)
 
