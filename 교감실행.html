@@ -611,42 +611,36 @@
             return;
         }
         closeModal();
+        document.getElementById('loading').classList.add('active');
         const pairs = Array.from(checkboxes).map(cb => cb.value.split(',').map(Number));
 
-        // 팝업 차단 방지: window.open()을 연산 시작 전, 클릭 이벤트 컨텍스트에서
-        // 가장 먼저 호출한다. 이후 연산이 끝나면 해당 창에 결과를 채운다.
-        const newWin = window.open('', '_blank');
-
-        document.getElementById('loading').classList.add('active');
-        try {
-            const allResults = [];
-            const errors = [];
-            pairs.forEach(([a, b]) => {
-                try {
-                    const result = compareTexts(files[a], files[b], a, b);
-                    allResults.push({ result, idxA: a, idxB: b });
-                } catch (error) {
-                    errors.push(`파일 ${files[a].name} ↔ ${files[b].name}: ${error.message}`);
-                }
-            });
-            if (errors.length > 0) {
-                alert('일부 비교에서 오류가 발생했습니다:\n\n' + errors.join('\n'));
-            }
-            if (allResults.length > 0) {
-                openResultWindow(allResults, newWin);
-            } else {
-                if (newWin) newWin.close();
-                alert('비교할 수 있는 파일 조합이 없습니다.');
-            }
-        } catch (error) {
-            if (newWin) newWin.close();
-            alert(`비교 중 오류가 발생했습니다:\n${error.message}`);
-            console.error(error);
-        } finally {
-            requestAnimationFrame(() => {
+        setTimeout(() => {
+            try {
+                const allResults = [];
+                const errors = [];
+                pairs.forEach(([a, b]) => {
+                    try {
+                        const result = compareTexts(files[a], files[b], a, b);
+                        allResults.push({ result, idxA: a, idxB: b });
+                    } catch (error) {
+                        errors.push(`파일 ${files[a].name} ↔ ${files[b].name}: ${error.message}`);
+                    }
+                });
                 document.getElementById('loading').classList.remove('active');
-            });
-        }
+                if (errors.length > 0) {
+                    alert('일부 비교에서 오류가 발생했습니다:\n\n' + errors.join('\n'));
+                }
+                if (allResults.length > 0) {
+                    openResultWindow(allResults);
+                } else {
+                    alert('비교할 수 있는 파일 조합이 없습니다.');
+                }
+            } catch (error) {
+                document.getElementById('loading').classList.remove('active');
+                alert(`비교 중 오류가 발생했습니다:\n${error.message}`);
+                console.error(error);
+            }
+        }, 100);
     }
 
     // ===== LCS-based Diff Algorithm =====
@@ -1519,13 +1513,14 @@
     }
 
     // ===== Open Result Window =====
-    function openResultWindow(allResults, newWin) {
+    function openResultWindow(allResults) {
         const resultHtml = generateResultHtml(allResults);
+        const newWin = window.open('', '_blank');
         if (newWin) {
             newWin.document.write(resultHtml);
             newWin.document.close();
         } else {
-            // newWin이 null이면(팝업 차단) 파일로 저장
+            alert('팝업이 차단되었습니다. 파일로 저장합니다.');
             const blob = new Blob([resultHtml], { type: 'text/html; charset=utf-8' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
