@@ -510,7 +510,7 @@
                 if (text.charCodeAt(0) === 0xFEFF) text = text.substring(1);
 
                 files[index] = { name: file.name, content: text };
-                const charCount = text.length;
+                const charCount = Array.from(text).length;
                 const cjkCount = Array.from(text).filter(ch => isCJK(ch)).length;
                 document.getElementById(`status-${index}`).textContent = `✓ ${file.name} (전체 ${charCount}자, 한자 ${cjkCount}자)`;
                 updateCompareButton();
@@ -644,6 +644,9 @@
     }
 
     // ===== LCS-based Diff Algorithm =====
+    // textA, textB는 모두 코드포인트 배열(separateCJK의 cjkOnly)이다.
+    // 문자열로 다루면 U+10000 이상 한자(서로게이트 페어)의 인덱싱·length·
+    // substring이 모두 어긋나므로 배열로 일관되게 처리한다.
     function computeLCS(textA, textB) {
         const m = textA.length;
         const n = textB.length;
@@ -690,8 +693,9 @@
     function computeLCSHirschberg(textA, textB) {
         const m = textA.length;
         const n = textB.length;
-        if (m === 0) return Array.from(textB).map((ch, idx) => ({ type: 'insertB', charB: ch, idxB: idx }));
-        if (n === 0) return Array.from(textA).map((ch, idx) => ({ type: 'deleteA', charA: ch, idxA: idx }));
+        // textA/textB가 배열이므로 .map()을 그대로 사용 가능
+        if (m === 0) return textB.map((ch, idx) => ({ type: 'insertB', charB: ch, idxB: idx }));
+        if (n === 0) return textA.map((ch, idx) => ({ type: 'deleteA', charA: ch, idxA: idx }));
         if (m === 1) {
             const pos = textB.indexOf(textA[0]);
             const result = [];
@@ -721,17 +725,18 @@
             return result;
         }
         const mid = Math.floor(m / 2);
-        const scoreL = lcsLengthRow(textA.substring(0, mid), textB);
-        const revA = reverseStr(textA.substring(mid));
-        const revB = reverseStr(textB);
+        // substring 대신 배열 slice 사용 → 서로게이트 페어 중간 절단 없음
+        const scoreL = lcsLengthRow(textA.slice(0, mid), textB);
+        const revA = textA.slice(mid).reverse();
+        const revB = textB.slice().reverse();
         const scoreR = lcsLengthRow(revA, revB);
         let maxVal = -1, splitJ = 0;
         for (let j = 0; j <= n; j++) {
             const val = scoreL[j] + scoreR[n - j];
             if (val > maxVal) { maxVal = val; splitJ = j; }
         }
-        const leftAlign = computeLCSHirschberg(textA.substring(0, mid), textB.substring(0, splitJ));
-        const rightAlign = computeLCSHirschberg(textA.substring(mid), textB.substring(splitJ));
+        const leftAlign = computeLCSHirschberg(textA.slice(0, mid), textB.slice(0, splitJ));
+        const rightAlign = computeLCSHirschberg(textA.slice(mid), textB.slice(splitJ));
         rightAlign.forEach(op => {
             if (op.idxA !== undefined) op.idxA += mid;
             if (op.idxB !== undefined) op.idxB += splitJ;
@@ -753,8 +758,6 @@
         }
         return prev;
     }
-
-    function reverseStr(s) { return Array.from(s).reverse().join(''); }
 
     // ===== Build Diff Segments =====
     function buildDiffSegments(alignment) {
@@ -793,10 +796,13 @@
     }
 
     function separateCJK(text) {
-        const cjkChars = [];
+        // cjkOnly는 문자열 대신 배열로 보관한다.
+        // 문자열로 join하면 U+10000 이상 한자가 서로게이트 페어(2 코드유닛)로
+        // 저장되어 str[i] 인덱싱·.length·substring 등이 모두 오작동하기 때문이다.
+        const cjkChars = [];   // 코드포인트 단위 배열
         const nonCjkMap = new Map();
         let pendingNonCjk = [];
-        for (const ch of text) {
+        for (const ch of text) {   // for-of는 코드포인트 단위로 순회
             if (isCJK(ch)) {
                 const idx = cjkChars.length;
                 if (pendingNonCjk.length > 0) {
@@ -809,7 +815,7 @@
             }
         }
         if (pendingNonCjk.length > 0) nonCjkMap.set(-1, pendingNonCjk.join(''));
-        return { cjkOnly: cjkChars.join(''), nonCjkMap };
+        return { cjkOnly: cjkChars, nonCjkMap };   // 배열 반환
     }
 
     function compareTexts(fileA, fileB, idxA, idxB) {
@@ -826,10 +832,16 @@
         let matchCount = 0, diffCharsA = 0, diffCharsB = 0;
         segments.forEach(seg => {
             if (seg.type === 'match') matchCount++;
-            else { diffCharsA += seg.charsA.length; diffCharsB += seg.charsB.length; }
+            else {
+                // Array.from()으로 코드포인트 단위 카운트
+                // (U+10000 이상 한자가 포함된 경우 .length는 과산정됨)
+                diffCharsA += Array.from(seg.charsA).length;
+                diffCharsB += Array.from(seg.charsB).length;
+            }
         });
         return {
             fileA, fileB, segments, parsedA, parsedB, alignment,
+            // parsedA.cjkOnly는 이제 배열이므로 .length가 코드포인트 수와 일치
             stats: { totalA: parsedA.cjkOnly.length, totalB: parsedB.cjkOnly.length, matchCount, diffCharsA, diffCharsB }
         };
     }
