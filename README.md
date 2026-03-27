@@ -4,9 +4,9 @@
 
 교감학(校勘學) 연구 및 이본(異本) 대조 작업을 자동화하여 연구의 효율성과 정확성을 극대화합니다.
 
-> 🔧 **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/)
+>  **웹에서 바로 교감 실행**: [한문 텍스트 교감기 실행하기](https://hmseodam.github.io/Chinese-Text-Comparison/)
 > 
-> 📖 **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/교감결과.html)
+>  **교감 결과 바로 보기**: [한문 텍스트 교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/교감결과.html)
 
 ---
 
