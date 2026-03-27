@@ -12,6 +12,20 @@
 
 ## 최신 버전 소식 (Changelog)
 
+### ver1.21 (2026-03-27)
+
+#### ・ 교감 데이터 추가
+
+* **大方廣佛華嚴經 性起品 / 如來出現品** 교감 결과를 공개하였습니다.
+
+  * 60화엄 성기품(佛馱跋陀羅 역, T278) ↔ 80화엄 여래출현품(實叉難陀 역, T279)
+  
+  * 동일 원전의 두 한역본을 LCS 알고리즘으로 글자 단위 대조
+  
+  * 각 역본 약 24,000자 규모, 차이 비율 약 45%
+
+* `results/avatamsaka-manifestation/` 폴더 신설, `교감결과.html` 목록 페이지에 카드 추가
+
 ### ver1.2 (2026-03-25)
 
 #### ・ 모바일 최적화
@@ -99,10 +113,16 @@ Chinese-Text-Comparison/
 ├── index.html              ← 교감기 (메인 실행 페이지)
 ├── 교감결과.html            ← 공개 교감 결과 목록
 ├── results/
-│   └── awakening-of-faith/
-│       ├── index.html      ← 大乘起信論 교감 결과 (브라우저에서 바로 열람)
-│       ├── P역_CBETA_2016.txt
-│       └── S역_CBETA_2016.txt
+│   ├── awakening-of-faith/
+│   │   ├── index.html      ← 大乘起信論 교감 결과 (브라우저에서 바로 열람)
+│   │   ├── README.md
+│   │   ├── P역_CBETA_2016.txt
+│   │   └── S역_CBETA_2016.txt
+│   └── avatamsaka-manifestation/
+│       ├── index.html      ← 華嚴經 性起品↔如來出現品 교감 결과 (브라우저에서 바로 열람)
+│       ├── README.md
+│       ├── 60화엄_성기품_CBETA2016.txt
+│       └── 80화엄_여래출현품_CBETA2016.txt
 └── samples/
     ├── A.txt
     ├── B.txt
@@ -121,7 +141,7 @@ Chinese-Text-Comparison/
 
 ### 방법 2. 다운로드 후 로컬 실행
 
-1. **[최신 버전(v1.2) 다운로드 받기](https://github.com/HMSeodam/Chinese-Text-Comparison/archive/refs/tags/v1.2.zip)**
+1. **[최신 버전(v1.21) 다운로드 받기](https://github.com/HMSeodam/Chinese-Text-Comparison/archive/refs/tags/v1.21.zip)**
 
 2. 위 링크를 눌러 압축 파일(`zip`)을 받고 적당한 폴더에 해제합니다.
 
@@ -178,6 +198,7 @@ Chinese-Text-Comparison/
 | 문헌 | 교감 대상 | 결과 보기 |
 |------|-----------|-----------| 
 | **大乘起信論** | 진제역 P역(T1666) ↔ 실차난타역 S역(T1667) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/awakening-of-faith/) |
+| **大方廣佛華嚴經** | 60화엄 성기품(T278) ↔ 80화엄 여래출현품(T279) | [**열람하기**](https://hmseodam.github.io/Chinese-Text-Comparison/results/avatamsaka-manifestation/) |
 
 → 전체 목록: [교감 결과 페이지](https://hmseodam.github.io/Chinese-Text-Comparison/교감결과.html)
 
